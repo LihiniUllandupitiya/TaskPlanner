@@ -1,18 +1,26 @@
 package com.example.taskplanner
 
 import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.taskplanner.databinding.ActivityMainBinding
+import com.example.taskplanner.models.Task
+import com.example.taskplanner.utils.Status
+import com.example.taskplanner.utils.clearEditText
+import com.example.taskplanner.utils.longToastShow
 import com.example.taskplanner.utils.setupDialog
 import com.example.taskplanner.utils.validateEditText
+import com.example.taskplanner.viewmodels.TaskViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.util.Date
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +44,10 @@ class MainActivity : AppCompatActivity() {
         Dialog(this, R.style.DialogCustomTheme).apply {
             setupDialog(R.layout.loading_dialog)
         }
+    }
+
+    private val taskViewModel: TaskViewModel by lazy {
+        ViewModelProvider(this)[TaskViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         mainBinding.addTaskFABtn.setOnClickListener {
+            clearEditText(addETTitle, addETTitleL)
+            clearEditText(addETDesc, addETDescL)
             addTaskDialog.show()
         }
 
@@ -79,8 +93,30 @@ class MainActivity : AppCompatActivity() {
                 && validateEditText(addETDesc, addETDescL)
             ) {
                 addTaskDialog.dismiss()
-                Toast.makeText(this,"validated!!",Toast.LENGTH_LONG).show()
-                loadingDialog.show()
+                val newTask = Task(
+                    UUID.randomUUID().toString(),
+                    addETTitle.text.toString().trim(),
+                    addETDesc.text.toString().trim(),
+                    Date()
+                )
+                taskViewModel.insertTask(newTask).observe(this) {
+                    when(it.status){
+                        Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+                        Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            if (it.data?.toInt() != -1){
+                                longToastShow("Task Added Successfully")
+                            }
+                        }
+                        Status.ERROR ->{
+                            loadingDialog.dismiss()
+                            it.message?.let { it1 -> longToastShow(it1) }
+                        }
+                    }
+                }
+
             }
         }
         // Add task end
