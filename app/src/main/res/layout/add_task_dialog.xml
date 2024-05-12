@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/CardViewStyle"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="10dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardMaxElevation="10dp">
+    app:cardBackgroundColor="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,6 +19,7 @@
             android:text="New Task"
             android:textSize="24sp"
             android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/closeImg"
             android:layout_width="40dp"
@@ -27,6 +27,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="8dp"
             android:src="@drawable/ic_close" />
+
         <View
             android:id="@+id/viewHLine"
             android:layout_width="match_parent"
@@ -88,11 +89,6 @@
                 style="@style/Widget.App.Button.Fill"
                 android:text="Save Task"
                 android:textSize="20sp" />
-
-
         </LinearLayout>
-
-
     </RelativeLayout>
-
 </com.google.android.material.card.MaterialCardView>
