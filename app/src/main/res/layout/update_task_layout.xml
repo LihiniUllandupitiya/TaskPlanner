@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/CardViewStyle"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
@@ -32,7 +32,7 @@
         <View
             android:id="@+id/viewHLine"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="1dp"
             android:layout_below="@id/titleTaskTxt"
             android:background="@color/black" />
 
@@ -86,9 +86,9 @@
                 android:layout_height="?actionBarSize"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
-                android:backgroundTint="@color/black"
-                style="@style/Widget.App.Button.Fill"
+                android:backgroundTint="@color/mainBackgroundColor"
                 android:text="Update Task"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
         </LinearLayout>
     </RelativeLayout>
